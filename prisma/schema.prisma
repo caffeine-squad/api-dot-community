@@ -7,6 +7,98 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
+model UserType {
+  id         Int    @id @default(autoincrement())
+  accessType String @db.VarChar(20)
+  User       User[]
+}
+
+model Address {
+  id         Int    @id @default(autoincrement())
+  cep        String @db.VarChar(10)
+  address    String @db.VarChar(100)
+  number     Int
+  complement String @db.VarChar(10)
+  district   String @db.VarChar(10)
+  city       String @db.VarChar(10)
+  uf         String @db.VarChar(10)
+  User       User?
+}
+
+model BloodType {
+  id          Int    @id @default(autoincrement())
+  description String @db.VarChar(4)
+  User        User[]
+}
+
+model Comorbidity {
+  id             Int              @id @default(autoincrement())
+  description    String           @db.VarChar(50)
+  UserComobidity UserComobidity[]
+}
+
+model Organ {
+  id          Int         @id @default(autoincrement())
+  description String      @db.VarChar(50)
+  organType   String      @db.Char(1)
+  OrganUser   OrganUser[]
+}
+
+model OrganUser {
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  user    User  @relation(fields: [userId], references: [codUser])
+  organId Int
+  organ   Organ @relation(fields: [organId], references: [id])
+}
+
+model UserComobidity {
+  id            Int          @id @default(autoincrement())
+  User          User?        @relation(fields: [userCodUser], references: [codUser])
+  userCodUser   Int?         @unique
+  Comorbidity   Comorbidity? @relation(fields: [comorbidityId], references: [id])
+  comorbidityId Int?         @unique
+}
+
+model User {
+  codUser        Int              @id @default(autoincrement())
+  name           String           @db.VarChar(100)
+  email          String           @unique @db.VarChar(50)
+  birthDate      DateTime?
+  cnpj           String?          @db.VarChar(14)
+  cellPhone      String           @db.VarChar(15)
+  password       String           @db.VarChar(20)
+  userTypeId     Int              @unique
+  userType       UserType         @relation(fields: [userTypeId], references: [id])
+  addressId      Int              @unique
+  address        Address          @relation(fields: [addressId], references: [id])
+  bloodTypeId    Int?             @unique
+  bloodType      BloodType?       @relation(fields: [bloodTypeId], references: [id])
+  OrganUser      OrganUser[]
+  UserComobidity UserComobidity[]
+  Comment        Comment[]
+  Topic          Topic[]
+}
+
+model Topic {
+  id           Int       @id @default(autoincrement())
+  title        String    @db.VarChar(50)
+  description  String
+  creationDate DateTime  @default(now())
+  userId       Int
+  user         User      @relation(fields: [userId], references: [codUser])
+  Comment      Comment[]
+}
+
+model Comment {
+  id           Int      @id @default(autoincrement()) 
+  description  String
+  creationDate DateTime @default(now())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [codUser])
+  topicId      Int
+  topic        Topic    @relation(fields: [topicId], references: [id])
+}

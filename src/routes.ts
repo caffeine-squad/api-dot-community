@@ -1,9 +1,9 @@
 import {Router, Request, Response} from "express";
+import UserController from "./controller/UserController";
 
 const routes = Router();
+const userController = new UserController();
 
-routes.get('/', (req, res) => {
-    res.send("Hello World!!!!!!")
-})
+routes.get('/', userController.get);
 
 export {routes};
