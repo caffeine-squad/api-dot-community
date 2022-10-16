@@ -4,6 +4,6 @@ export interface IUserService {
     create(user: User): Promise<number>;
     update(id: number, user: User): Promise<boolean>;
     delete(id: number): Promise<boolean>;
-    get(id: number): Promise<User>;
-    get(): Promise<Array<User>>;
+    get(): Promise<Array<User> | any>;
+    getById(id: number): Promise<User>
 }

@@ -22,11 +22,11 @@ export default class UserRepository implements IUserRepository {
         throw new Error('Method not implemented.');
     }
 
-    get(id: number): Promise<User>;
-
-    get(): Promise<User[]>;
+    async get(): Promise<User[] | any>{
+        return await this.prisma.bloodType.findMany();
+    }
     
-    get(id?: unknown): Promise<User> | Promise<User[]> {
+    getById(id: number): Promise<User> {
         throw new Error('Method not implemented.');
     }
 

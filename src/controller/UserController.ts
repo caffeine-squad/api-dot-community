@@ -1,16 +1,18 @@
+import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import  UserService  from '../services/UserService';
 import { IUserService } from './../services/IUserService';
 
 export default class UserController {
     
-    private userService: IUserService;
+    private readonly _userService: IUserService;
 
-    constructor() {
-        this.userService = new UserService();
+    constructor(userService: IUserService) {
+        this._userService = userService;
     }
 
     async get(request: Request, response: Response){
-        response.status(200).json({status: 'success'})
+        const result : User[] = await this._userService.get();
+        response.status(200).json(result);
     }
 }

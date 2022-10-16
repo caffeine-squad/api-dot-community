@@ -1,9 +1,14 @@
 import {Router} from "express";
 import UserController from "../controller/UserController";
+import UserRepository from "../repositories/UserRepository";
+import UserService from "../services/UserService";
 
 const userRoutes = Router();
-const userController = new UserController();
 
-userRoutes.get('/', userController.get);
+const userRepository = new UserRepository();
+const userService = new UserService(userRepository);
+const userController = new UserController(userService);
+
+userRoutes.get('/', (req, res) => userController.get(req,res));
 
 export {userRoutes};
