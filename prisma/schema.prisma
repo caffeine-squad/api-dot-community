@@ -73,8 +73,8 @@ model User {
   password       String           @db.VarChar(20)
   userTypeId     Int              @unique
   userType       UserType         @relation(fields: [userTypeId], references: [id])
-  addressId      Int              @unique
-  address        Address          @relation(fields: [addressId], references: [id])
+  addressId      Int?             @unique
+  address        Address?         @relation(fields: [addressId], references: [id])
   bloodTypeId    Int?             @unique
   bloodType      BloodType?       @relation(fields: [bloodTypeId], references: [id])
   OrganUser      OrganUser[]

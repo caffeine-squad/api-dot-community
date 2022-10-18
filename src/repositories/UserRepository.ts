@@ -22,8 +22,8 @@ export default class UserRepository implements IUserRepository {
         throw new Error('Method not implemented.');
     }
 
-    async get(): Promise<User[] | any>{
-        return await this.prisma.bloodType.findMany();
+    async get(): Promise<User[]>{
+        return await this.prisma.user.findMany();
     }
     
     getById(id: number): Promise<User> {

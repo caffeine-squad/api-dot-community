@@ -73,7 +73,7 @@ CREATE TABLE "User" (
     "cellPhone" VARCHAR(15) NOT NULL,
     "password" VARCHAR(20) NOT NULL,
     "userTypeId" INTEGER NOT NULL,
-    "addressId" INTEGER NOT NULL,
+    "addressId" INTEGER,
     "bloodTypeId" INTEGER,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("codUser")
@@ -135,7 +135,7 @@ ALTER TABLE "UserComobidity" ADD CONSTRAINT "UserComobidity_comorbidityId_fkey" 
 ALTER TABLE "User" ADD CONSTRAINT "User_userTypeId_fkey" FOREIGN KEY ("userTypeId") REFERENCES "UserType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_bloodTypeId_fkey" FOREIGN KEY ("bloodTypeId") REFERENCES "BloodType"("id") ON DELETE SET NULL ON UPDATE CASCADE;

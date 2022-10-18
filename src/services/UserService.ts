@@ -22,7 +22,7 @@ export default class UserService implements IUserService {
         throw new Error('Method not implemented.');
     }
 
-    async get(): Promise<User[] | any>{
+    async get(): Promise<User[]>{
         return await this._userRepository.get();
     }
 
