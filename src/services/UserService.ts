@@ -1,33 +1,38 @@
-import { IUserRepository } from './../repositories/IUserRepository';
-import { User } from '@prisma/client';
-import { IUserService } from './IUserService';
+import { Address, Prisma, User } from '@prisma/client';
+import UserRepository from '../repositories/UserRepository';
+import { autoInjectable } from 'tsyringe';
+import { UserDTO } from '../models/User';
 
-export default class UserService implements IUserService {
-    private readonly _userRepository: IUserRepository;
+@autoInjectable()
+export default class UserService {
 
-    constructor(userRepository: IUserRepository) {
-        this._userRepository = userRepository;
+    constructor( private userRepository: UserRepository) {}
+    
+    async create(user: UserDTO): Promise<number> {
+        let userDTO: Prisma.UserCreateInput
+
+        userDTO = {
+            name: user.name,
+            email: user.email,
+            birthDate: new Date(user.birthDate),
+            cnpj: user.cnpj,
+            cellPhone: user.cellPhone,
+            password: user.password,
+            userType: {connect: {id: user.userTypeId}},
+            bloodType: {connect: {id: user.bloodType}},
+            OrganUser: {createMany: {data: user.organUser}},
+            UserComobidity: {createMany: {data: user.userComobidity}},
+            address: {create:{
+                cep: user.address.cep,
+                address: user.address.address,
+                number: user.address.number,
+                complement: user.address.complement,
+                district: user.address.district,
+                city: user.address.city,
+                uf: user.address.uf
+            }}
+        }
+        const newUser = this.userRepository.create(userDTO);
+        return newUser;
     }
-
-    async create(user: User): Promise<number> {
-        const result = this._userRepository.create(user);
-        return result;
-    }
-
-    update(id: number, user: User): Promise<boolean> {
-        throw new Error('Method not implemented.');
-    }
-
-    delete(id: number): Promise<boolean> {
-        throw new Error('Method not implemented.');
-    }
-
-    async get(): Promise<User[]>{
-        return await this._userRepository.get();
-    }
-
-    getById(id: number): Promise<User> {
-        throw new Error('Method not implemented.');
-    }
-
 }

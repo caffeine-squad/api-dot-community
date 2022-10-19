@@ -1,14 +1,12 @@
 import {Router} from "express";
+import 'reflect-metadata'
+import { container } from "tsyringe";
 import UserController from "../controller/UserController";
-import UserRepository from "../repositories/UserRepository";
-import UserService from "../services/UserService";
 
 const userRoutes = Router();
 
-const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
-const userController = new UserController(userService);
+const userController = container.resolve<UserController>(UserController)
 
-userRoutes.get('/', (req, res) => userController.get(req,res));
+userRoutes.post('/create', (req, res) => userController.create(req,res));
 
 export {userRoutes};

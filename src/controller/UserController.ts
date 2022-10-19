@@ -1,18 +1,20 @@
-import { User } from '@prisma/client';
 import { Request, Response } from 'express';
-import  UserService  from '../services/UserService';
-import { IUserService } from './../services/IUserService';
+import { autoInjectable, injectable } from 'tsyringe';
+import UserService from '../services/UserService';
 
+@autoInjectable()
 export default class UserController {
+
+    constructor(private userService: UserService){}
     
-    private readonly _userService: IUserService;
-
-    constructor(userService: IUserService) {
-        this._userService = userService;
+    async create(request: Request, response: Response){
+        try {
+            const newUser = await this.userService.create(request.body);
+            response.status(201).json({id: newUser})
+        } catch (error: any) {
+            const {message} = error
+            response.status(400).json({message})
+        }
     }
-
-    async get(request: Request, response: Response){
-        const result : User[] = await this._userService.get();
-        response.status(200).json(result);
-    }
+    
 }
