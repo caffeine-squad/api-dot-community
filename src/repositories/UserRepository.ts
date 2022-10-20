@@ -1,33 +1,17 @@
-import { User } from '@prisma/client';
-import { IUserRepository } from './IUserRepository';
-import { PrismaClient } from '@prisma/client';
+import { Address, Prisma, User } from '@prisma/client';
+import { prisma } from '../Database/prismaClient';
 
-export default class UserRepository implements IUserRepository {
-    private prisma: PrismaClient;
+export default class UserRepository {
 
-    constructor(){
-        this.prisma = new PrismaClient();
+    async create(user: Prisma.UserCreateInput): Promise<number> {
+        try {
+            return (await prisma.user.create({
+                data:
+                    user
+            })).codUser;
+        } catch (error: any) {
+            const { message } = error
+            throw new Error(message)
+        }
     }
-
-    async create(user: User): Promise<number> {
-        const result = await this.prisma.user.create({data: user});
-        return result?.codUser;
-    }
-
-    update(id: number, user: User): Promise<boolean> {
-        throw new Error('Method not implemented.');
-    }
-
-    delete(id: number): Promise<boolean> {
-        throw new Error('Method not implemented.');
-    }
-
-    get(id: number): Promise<User>;
-
-    get(): Promise<User[]>;
-    
-    get(id?: unknown): Promise<User> | Promise<User[]> {
-        throw new Error('Method not implemented.');
-    }
-
 }
