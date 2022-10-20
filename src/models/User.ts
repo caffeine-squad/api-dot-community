@@ -8,9 +8,9 @@ export type UserDTO = {
     cellPhone: string,
     password: string,
     userTypeId: number,
-    bloodType: number,
-    organUser: Prisma.OrganUserCreateManyUserInput[],
-    userComobidity: Prisma.UserComobidityCreateManyUserInput[],
+    bloodType?: number,
+    organUser?: Prisma.OrganUserCreateManyUserInput[],
+    userComobidity?: Prisma.UserComobidityCreateManyUserInput[],
     address: AddressDTO
 }
 

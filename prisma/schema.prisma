@@ -58,9 +58,9 @@ model OrganUser {
 model UserComobidity {
   id            Int          @id @default(autoincrement())
   User          User?        @relation(fields: [userCodUser], references: [codUser])
-  userCodUser   Int?         @unique
+  userCodUser   Int?         
   Comorbidity   Comorbidity? @relation(fields: [comorbidityId], references: [id])
-  comorbidityId Int?         @unique
+  comorbidityId Int?         
 }
 
 model User {
@@ -68,7 +68,7 @@ model User {
   name           String           @db.VarChar(100)
   email          String           @unique @db.VarChar(50)
   birthDate      DateTime?
-  cnpj           String?          @db.VarChar(14)
+  cnpj           String?          @unique @db.VarChar(14)
   cellPhone      String           @db.VarChar(15)
   password       String           @db.VarChar(20)
   userTypeId     Int
