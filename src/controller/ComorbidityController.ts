@@ -1,74 +1,51 @@
 import { Request, Response } from 'express';
-import { Prisma, PrismaClient } from '@prisma/client';
-import { comorbidityRoutes } from '../routes/comorbidity.routes';
+import { autoInjectable, injectable } from 'tsyringe';
+import ComorbidityService from '../services/ComorbidityService';
 
-const prisma = new PrismaClient();
+@autoInjectable()
+export default class ComorbidityController {
+	get(arg0: string, get: any) {
+		throw new Error('Method not implemented.');
+	}
 
-export class ComobidityController {
-	async CreateComorbidity(req: Request, res: Response) {
-		const { description } = req.body;
+	constructor(private comorbidityService: ComorbidityService) {}
 
+	async create(request: Request, response: Response) {
 		try {
-			const comorbidity = await prisma.comorbidity.create({
-				data: {
-					description
-				}
-			});
-			return res.status(200).json(comorbidity);
-		} catch (err) {
-			return res.status(400).json('Invalid data');
+			const newComorbidity = await this.comorbidityService.create(request.body);
+			response.status(201).json({ id: newComorbidity });
+		} catch (error) {
+			response.status(400).json('Invalid data');
 		}
 	}
 
-	async FindAllComorbidity(request: Request, response: Response) {
-		const comorbidity = await prisma.comorbidity.findMany();
-
+	async findAll(request: Request, response: Response) {
+		const comorbidity = await this.comorbidityService.findAll();
 		return response.json(comorbidity);
 	}
 
-	async DeletComorbidity(req: Request, res: Response) {
-		const { id } = req.params;
-
-		const comorbidityExist = await prisma.comorbidity.findUnique({ where: { id: Number(id) } });
-
-		if (!comorbidityExist) {
-			return res.status(400).json('This comobidity is not registered');
-		}
-
-		const comorbidity = await prisma.comorbidity.delete({
-			where: {
-				id: Number(id)
+	async update(request: Request, response: Response) {
+		const { id } = request.params;
+		const { description } = request.body;
+		try {
+			const existComorbidity = await this.comorbidityService.findUnique(Number(id));
+			if (!existComorbidity) {
+				return response.status(404).json('This comorbidity is not registered');
 			}
-		});
-
-		return res.status(204).send('Sucess');
+			const updateComorbidity = await this.comorbidityService.update(Number(id), description);
+			return response.status(200).json(updateComorbidity);
+		} catch (error) {
+			return response.status(400).json('Invalid Data');
+		}
 	}
 
-	async UpdateComorbidity(req: Request, res: Response) {
-		const { id } = req.params;
-		const { description } = req.body;
-
-		try {
-			const comorbidityExist = await prisma.comorbidity.findUnique({ where: { id: Number(id) } });
-
-			if (!comorbidityExist) {
-				return res.status(400).json('This user is not registered');
-			}
-
-			const comobidity = await prisma.comorbidity.update({
-				where: {
-					id: Number(id)
-				},
-				data: {
-					description
-				},
-				select: {
-					description: true
-				}
-			});
-			return res.status(200).json(description);
-		} catch (err) {
-			return res.status(400).json('Invalid data');
+	async delete(request: Request, response: Response) {
+		const { id } = request.params;
+		const existComorbidity = await this.comorbidityService.findUnique(Number(id));
+		if (!existComorbidity) {
+			return response.status(404).json('This comorbidity is not registered');
 		}
+		const deleteComorbidity = await this.comorbidityService.delete(Number(id));
+		return response.status(204).json(deleteComorbidity);
 	}
 }

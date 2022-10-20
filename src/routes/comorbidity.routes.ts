@@ -1,15 +1,15 @@
-import { Router } from 'express';
-import { ComobidityController } from '../controller/comorbidityController';
+import {Router} from "express";
+import 'reflect-metadata'
+import { container } from "tsyringe";
+import ComorbidityController from "../controller/ComorbidityController";
 
 const comorbidityRoutes = Router();
-const comorbidityController = new ComobidityController();
 
-comorbidityRoutes.post('/', comorbidityController.CreateComorbidity);
+const comorbidityController = container.resolve<ComorbidityController>(ComorbidityController)
 
-comorbidityRoutes.get('/', comorbidityController.FindAllComorbidity);
+comorbidityRoutes.post('/', (req, res) => comorbidityController.create(req,res));
+comorbidityRoutes.get('/', (req, res) => comorbidityController.findAll(req,res));
+comorbidityRoutes.put('/:id', (req, res) => comorbidityController.update(req,res));
+comorbidityRoutes.delete('/:id', (req, res) => comorbidityController.delete(req,res));
 
-comorbidityRoutes.delete('/:id', comorbidityController.DeletComorbidity);
-
-comorbidityRoutes.put('/:id', comorbidityController.UpdateComorbidity);
-
-export { comorbidityRoutes };
+export {comorbidityRoutes};

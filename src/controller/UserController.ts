@@ -4,6 +4,9 @@ import UserService from '../services/UserService';
 
 @autoInjectable()
 export default class UserController {
+    get(arg0: string, get: any) {
+      throw new Error("Method not implemented.");
+    }
 
     constructor(private userService: UserService){}
     
