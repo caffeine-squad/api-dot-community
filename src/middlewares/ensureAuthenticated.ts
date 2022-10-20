@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
-export default interface IToken {
+export interface IToken {
     id: string,
     userType: string,
     iat: number,

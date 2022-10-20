@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import IToken from "./ensureAuthenticated";
+import { IsReceiver } from "../utils/IsUserTypeEnum";
+import { IToken } from "./EnsureAuthenticated";
 
 export default function (req: Request, res: Response, next: NextFunction){
     const { authorization } = req.headers;
@@ -14,7 +15,7 @@ export default function (req: Request, res: Response, next: NextFunction){
         const data = jwt.verify(token, process.env.SECRET_KEY_JWT as string);
         const { userType, id } = data as IToken;
 
-        if(userType == 'Receiver'){
+        if(IsReceiver(userType)){
             return next();
         }
 
