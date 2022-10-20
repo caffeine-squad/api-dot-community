@@ -14,3 +14,4 @@ export default class UserController {
         response.status(200).json({status: 'success'})
     }
 }
+
