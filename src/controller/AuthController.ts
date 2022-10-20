@@ -33,8 +33,8 @@ export class AuthController {
 
         const token = jwt.sign(
             {
-                id: userExist.email,
-                userType: userExist.userType
+                id: userExist.codUser,
+                userType: userExist.userType.accessType
             },
             process.env.SECRET_KEY_JWT as string, 
             { expiresIn: '1h' }
