@@ -1,4 +1,5 @@
 import { Router } from "express";
+import 'reflect-metadata'
 import { AuthController } from "../controller/AuthController";
 
 const authRoute = Router();

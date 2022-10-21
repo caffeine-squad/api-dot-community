@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prismaClient } from "../config/prismaClient";
+import { prisma } from "../config/prismaClient";
 import bcrypt from "bcryptjs";
 import { hash } from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -10,7 +10,7 @@ export class AuthController {
         const { email, password } = req.body;
         console.log(email, password);
         
-        const userExist = await prismaClient.user.findFirst({ 
+        const userExist = await prisma.user.findFirst({ 
             where: { 
                 email
             },
