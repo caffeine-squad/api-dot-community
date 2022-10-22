@@ -1,16 +1,43 @@
 import { Request, Response } from 'express';
-import  UserService  from '../services/UserService';
-import { IUserService } from './../services/IUserService';
+import { autoInjectable } from 'tsyringe';
+import UserService from '../services/UserService';
 
+@autoInjectable()
 export default class UserController {
+    get(arg0: string, get: any) {
+      throw new Error("Method not implemented.");
+    }
+
+    constructor(private userService: UserService){}
     
-    private userService: IUserService;
-
-    constructor() {
-        this.userService = new UserService();
+    async create(request: Request, response: Response){
+        try {
+            const newUser = await this.userService.create(request.body);
+            response.status(201).json({id: newUser})
+        } catch (error: any) {
+            const {message} = error
+            response.status(400).json(message)
+        }
     }
 
-    async get(request: Request, response: Response){
-        response.status(200).json({status: 'success'})
+    async getAll(request: Request, response: Response){
+        try {
+            const userList = await this.userService.getAll();
+            response.status(200).json(userList)
+        } catch (error: any) {
+            const {message} = error
+            response.status(400).json(message)
+        }
     }
+
+    async getById(request: Request, response: Response){
+        try {
+            const {id} = request.params;
+            const user = await this.userService.getById(Number(id));
+            response.status(200).json(user)
+        } catch (error: any) {
+            const {message} = error
+            response.status(400).json(message)
+        }
+    }  
 }

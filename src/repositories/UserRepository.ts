@@ -1,33 +1,57 @@
-import { User } from '@prisma/client';
-import { IUserRepository } from './IUserRepository';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
+import { prisma } from '../config/prismaClient';
 
-export default class UserRepository implements IUserRepository {
-    private prisma: PrismaClient;
+export default class UserRepository {
 
-    constructor(){
-        this.prisma = new PrismaClient();
+    async create(user: Prisma.UserCreateInput): Promise<number> {
+        try {
+            return (await prisma.user.create({
+                data:
+                    user
+            })).codUser;
+        } catch (error: any) {
+            const { message } = error
+            throw new Error(message)
+        }
     }
 
-    async create(user: User): Promise<number> {
-        const result = await this.prisma.user.create({data: user});
-        return result?.codUser;
+    async getAll(): Promise<Array<User>> {
+        try {
+            return (await prisma.user.findMany({ include: { address: true, bloodType: true, UserComobidity: true } }))
+        } catch (error: any) {
+            const { message } = error
+            throw new Error(message)
+        }
     }
 
-    update(id: number, user: User): Promise<boolean> {
-        throw new Error('Method not implemented.');
+    async getById(id: number): Promise<User | undefined> {
+        try {
+            return (await prisma.user.findFirstOrThrow(
+                {
+                    where:
+                        { codUser: id },
+                    include:
+                        { address: true, bloodType: true, UserComobidity: true }
+                }))
+        } catch (error: any) {
+            const { message } = error
+            throw new Error(message)
+        }
     }
 
-    delete(id: number): Promise<boolean> {
-        throw new Error('Method not implemented.');
-    }
-
-    get(id: number): Promise<User>;
-
-    get(): Promise<User[]>;
-    
-    get(id?: unknown): Promise<User> | Promise<User[]> {
-        throw new Error('Method not implemented.');
+    async GetByEmail(email : string){
+        try {
+            return await prisma.user.findFirst({ 
+                where: { 
+                    email
+                },
+                include: {
+                    userType: true
+                }
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
     }
 
 }
