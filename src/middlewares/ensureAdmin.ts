@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { IsAdmin } from "../utils/IsUserTypeEnum";
-import { IToken } from "./ensureAuthenticated";
+import { IToken } from "./EnsureAuthenticated";
 
 export default function (req: Request, res: Response, next: NextFunction){
     const { authorization } = req.headers;

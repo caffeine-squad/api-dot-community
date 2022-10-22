@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import AuthService from "../services/AuthService";
 import { autoInjectable } from "tsyringe";
+import { isAnyArrayBuffer } from "util/types";
 
 @autoInjectable()
 export default class AuthController {
@@ -14,7 +15,8 @@ export default class AuthController {
             return res.json(token);
 
         } catch (error: any) {
-            throw new Error(error.message);
+            const { message } = error;
+            res.status(400).json(message);
         }
     }
 }
