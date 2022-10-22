@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma":{
+    "seed": "ts-node-dev prisma/seed.ts"
+  },
   "scripts": {
     "dev": "tsnd --exit-child --respawn --transpile-only --ignore-watch node_modules src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
