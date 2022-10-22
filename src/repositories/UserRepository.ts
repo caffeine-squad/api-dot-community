@@ -39,4 +39,19 @@ export default class UserRepository {
         }
     }
 
+    async GetByEmail(email : string){
+        try {
+            return await prisma.user.findFirst({ 
+                where: { 
+                    email
+                },
+                include: {
+                    userType: true
+                }
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
+
 }

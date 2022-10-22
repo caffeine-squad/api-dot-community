@@ -9,7 +9,7 @@ const comorbidityController = container.resolve<ComorbidityController>(Comorbidi
 
 comorbidityRoutes.post('/create', (req, res) => comorbidityController.create(req,res));
 comorbidityRoutes.get('/findAll', (req, res) => comorbidityController.findAll(req,res));
-comorbidityRoutes.put('/update/:id', (req, res) => comorbidityController.update(req,res));
-comorbidityRoutes.delete('/delete/:id', (req, res) => comorbidityController.delete(req,res));
+comorbidityRoutes.put('/:id/update', (req, res) => comorbidityController.update(req,res));
+comorbidityRoutes.delete('/:id/delete', (req, res) => comorbidityController.delete(req,res));
 
 export {comorbidityRoutes};

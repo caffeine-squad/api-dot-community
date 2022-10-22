@@ -1,5 +1,5 @@
 import { UserType } from '@prisma/client';
-import { prisma } from '../Database/prismaClient';
+import { prisma } from '../config/prismaClient';
 
 export default class UserTypeRepository {
     

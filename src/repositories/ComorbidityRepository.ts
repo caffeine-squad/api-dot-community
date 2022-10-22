@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client';
-import { prismaClient } from '../config/prismaClient';
+import { prisma } from '../config/prismaClient';
 
 export default class Repository {
 	async create(comorbidity: Prisma.ComorbidityCreateInput): Promise<number> {
 		try {
-			return (await prismaClient.comorbidity.create({
+			return (await prisma.comorbidity.create({
 				data: comorbidity
 			})).id;
 		} catch (error: any) {
@@ -14,7 +14,7 @@ export default class Repository {
 	}
 
 	async findAll() {
-		const result = await prismaClient.comorbidity.findMany({
+		const result = await prisma.comorbidity.findMany({
 			orderBy: {
 				id: 'asc'
 			}
@@ -25,7 +25,7 @@ export default class Repository {
 
 	async update(id: number, description: string) {
 		try {
-			return await prismaClient.comorbidity.update({
+			return await prisma.comorbidity.update({
 				where: { id: Number(id) },
 				data: { description },
 				select: {
@@ -39,14 +39,14 @@ export default class Repository {
 	}
 
 	async findUnique(id: number) {
-		const comorbidityExist = await prismaClient.comorbidity.findUnique({
+		const comorbidityExist = await prisma.comorbidity.findUnique({
 			where: { id: Number(id) }
 		});
 		return comorbidityExist;
 	}
 
 	async delete(id: number) {
-		const result = await prismaClient.comorbidity.delete({
+		const result = await prisma.comorbidity.delete({
 			where: { id: Number(id) }
 		});
 		return result;

@@ -1,4 +1,4 @@
-import { prismaClient } from '../src/config/prismaClient';
+import { prisma } from '../src/config/prismaClient';
 
 async function main() {
 	const typeOrgan = [ 'Coração', 'Rins', 'Pulmão', 'Fígado', 'Pâncreas', 'Intestino' ];
@@ -6,10 +6,10 @@ async function main() {
 
 	//npx prisma db seed
 	//orgãos
-	await prismaClient.organ.deleteMany();
+	await prisma.organ.deleteMany();
 
 	for (let i = 0; i < typeOrgan.length; i++) {
-		await prismaClient.organ.create({
+		await prisma.organ.create({
 			data: {
 				description: typeOrgan[i],
 				organType: '1'
@@ -18,7 +18,7 @@ async function main() {
 	}
 
 	for (let i = 0; i < typeTissue.length; i++) {
-		await prismaClient.organ.create({
+		await prisma.organ.create({
 			data: {
 				description: typeTissue[i],
 				organType: '0'
@@ -26,7 +26,7 @@ async function main() {
 		});
 	}
 
-	const allOrgan = await prismaClient.organ.findMany();
+	const allOrgan = await prisma.organ.findMany();
 	console.log(allOrgan);
 
 	//tipo sanguíneo
@@ -34,7 +34,7 @@ async function main() {
 	const bloodType = [ 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-' ];
 
   for (let i = 0; i < bloodType.length; i++) {
-		await prismaClient.bloodType.create({
+		await prisma.bloodType.create({
 			data: {
 				description: bloodType[i],
 			}
@@ -45,7 +45,7 @@ async function main() {
 	//tipos usuário
 	const typeUser = [ 'Admin', 'Donor', 'Receiver', 'Organization' ];
 	for (let i = 0; i < typeUser.length; i++) {
-		await prismaClient.userType.create({
+		await prisma.userType.create({
 			data: {
 				accessType: typeUser[i],
 			}
@@ -59,5 +59,5 @@ main()
 		process.exit(1);
 	})
 	.finally(async () => {
-		await prismaClient.$disconnect();
+		await prisma.$disconnect();
 	});
