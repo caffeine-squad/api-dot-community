@@ -4,7 +4,7 @@ CRUD API for organ donation system.
 
 ## Installation
 
-Use the package [npm](https://https://www.npmjs.com/) to install the backend API.
+Use the package [npm](https://https://www.npmjs.com/) to install the backend API requirements.
 
 ```bash
 npm install 
@@ -19,3 +19,7 @@ npx prisma migrate dev
 ```bash
 npm rum dev
 ```
+
+## API Endpoints
+
+For performing basic CRUD (Create, Read, Update, Delete) operations.
