@@ -4,7 +4,7 @@ CRUD API for organ donation system.
 
 ## Installation
 
-Use the package [npm](https://https://www.npmjs.com/) to install the API.
+Use the package [npm](https://https://www.npmjs.com/) to install the backend API.
 
 ```bash
 npm install 
