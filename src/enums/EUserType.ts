@@ -1,6 +1,6 @@
 export enum EUserType {
-    Admin,
-    Donor,
-    Receiver,
-    Organization
+    Admin = "Admin",
+    Donor = "Donor",
+    Receiver = "Receiver",
+    Organization = "Organization"
 }

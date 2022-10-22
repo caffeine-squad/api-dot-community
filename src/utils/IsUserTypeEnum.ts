@@ -1,23 +1,19 @@
-import { EUserType } from "../Enums/EUserType";
+import { EUserType } from "../enums/EUserType";
 
 export function IsAdmin (value: string){
-    const eUserType = Object.values(EUserType);
-    return eUserType.includes(value as unknown as EUserType.Admin)
+    return value == EUserType.Admin;
 }
 
 export function IsDonor (value: string){
-    const eUserType = Object.values(EUserType);
-    return eUserType.includes(value as unknown as EUserType.Donor)
+    return value == EUserType.Donor;
 }
 
 export function IsReceiver (value: string){
-    const eUserType = Object.values(EUserType);
-    return eUserType.includes(value as unknown as EUserType.Receiver)
+    return value == EUserType.Receiver;
 }
 
 export function IsOrganization (value: string){
-    const eUserType = Object.values(EUserType);
-    return eUserType.includes(value as unknown as EUserType.Organization)
+    return value == EUserType.Organization;
 }
 
 export default { IsAdmin, IsDonor, IsReceiver, IsOrganization};
