@@ -15,8 +15,8 @@ export default class AuthController {
             return res.json(token);
 
         } catch (error: any) {
-            const {message} = error;
-            res.status(400).json({message})
+            const { message } = error;
+            res.status(400).json(message);
         }
     }
 }
