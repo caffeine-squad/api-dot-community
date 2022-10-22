@@ -1,4 +1,4 @@
-import { Address, Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { autoInjectable } from 'tsyringe';
 import { ComorbidityDTO } from '../models/Comorbidity';
 import ComorbidityRepository from '../repositories/ComorbidityRepository';
@@ -14,7 +14,7 @@ export default class ComorbidityService {
 			description: comorbidity.description
 		};
 
-		const newComorbidity = this.comorbidityRepository.create(comorbidityDTO);
+		const newComorbidity = await this.comorbidityRepository.create(comorbidityDTO);
 		return newComorbidity;
 	}
 
@@ -24,7 +24,7 @@ export default class ComorbidityService {
 	}
 
 	async update(id: number, description: string) {
-		const updateComorbidity = this.comorbidityRepository.update(id, description);
+		const updateComorbidity = await this.comorbidityRepository.update(id, description);
 		return updateComorbidity;
 	}
 
@@ -34,7 +34,7 @@ export default class ComorbidityService {
 	}
 
 	async delete(id: number){
-		const deleteComorbidity = this.comorbidityRepository.delete(id);
+		const deleteComorbidity = await this.comorbidityRepository.delete(id);
 		return deleteComorbidity;
 	}
 

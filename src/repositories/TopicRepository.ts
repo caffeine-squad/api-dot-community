@@ -23,14 +23,11 @@ export default class Repository {
 		return result;
 	}
 
-    async update(id: number, description: string) {
+    async update(id: number, description: string, title: string) {
 		try {
 			return await prisma.topic.update({
 				where: { id: Number(id) },
-				data: { description },
-				select: {
-					description: true
-				}
+				data: { description, title }
 			});
 		} catch (error: any) {
 			const { message } = error;

@@ -33,7 +33,7 @@ export default class ComorbidityController {
 				return response.status(404).json('This comorbidity is not registered');
 			}
 			const updateComorbidity = await this.comorbidityService.update(Number(id), description);
-			return response.status(200).json(updateComorbidity);
+			return response.status(204).send();
 		} catch (error) {
 			return response.status(400).json('Invalid Data');
 		}
@@ -46,6 +46,6 @@ export default class ComorbidityController {
 			return response.status(404).json('This comorbidity is not registered');
 		}
 		const deleteComorbidity = await this.comorbidityService.delete(Number(id));
-		return response.status(204).json(deleteComorbidity);
+		return response.status(204).send();
 	}
 }

@@ -11,10 +11,12 @@ export default class TopicService {
         let topicDTO: Prisma.TopicCreateInput;
 
         topicDTO = {
-            description: topic.description
+            user: {connect: {codUser: topic.userId}},
+            description: topic.description,
+            title: topic.title
         };
-        const newTopic = this.topicRepository.create(topicDTO);
-        return newTopic;
+        const newTopic = await this.topicRepository.create(topicDTO);
+        return newTopic.id;
     }
 
     async findAll(){
@@ -22,8 +24,8 @@ export default class TopicService {
         return topic;
     }
 
-    async update(id: number, description: string) {
-		const updateTopic = this.topicRepository.update(id, description);
+    async update(id: number, description: string, title: string) {
+		const updateTopic = await this.topicRepository.update(id, description, title);
 		return updateTopic;
 	}
 

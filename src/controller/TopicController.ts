@@ -26,14 +26,14 @@ export default class TopicController{
 
     async update(request: Request, response:Response){
         const { id } = request.params;
-        const { description } = request.body;
+        const { description, title } = request.body;
         try {
             const existTopic = await this.topicService.findUnique(Number(id));
             if (!existTopic) {
                 return response.status(404).json('This topic is not registered');
             }
-            const updateTopic = await this.topicService.update(Number(id), description);
-            return response.status(200).json(updateTopic);
+            const updateTopic = await this.topicService.update(Number(id), description, title);
+            return response.status(204).send();
         } catch (error) {
             return response.status(400).json('Invalid Data');
         }

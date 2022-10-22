@@ -2,7 +2,7 @@ import { Router } from "express";
 import { addressRoute } from "./address";
 import { authRoute } from "./auth";
 import { userRoutes } from "./user";
-import { comorbidityRoutes } from "./comorbidity.routes";
+import { comorbidityRoutes } from "./comorbidity";
 import { commentRoutes } from "./comment";
 import { topicRoutes } from "./topic";
 
