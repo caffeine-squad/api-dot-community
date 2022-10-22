@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export type CommentDTO = {
-    id: number;
     description: string;
+    userId: number;
+    topicId: number;
   }

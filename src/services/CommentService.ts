@@ -1,4 +1,4 @@
-import { Address, Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { autoInjectable } from 'tsyringe';
 import { CommentDTO } from '../models/Comment';
 import  CommentRepository  from '../repositories/CommentRepository';
@@ -11,10 +11,13 @@ export default class CommentService {
         let commentDTO: Prisma.CommentCreateInput;
 
         commentDTO = {
-            description: comment.description
+            topic: {connect: {id: comment.topicId }},
+            description: comment.description,
+            user: {connect: {codUser: comment.userId}},
         };
-        const newComment = this.commentRepository.create(commentDTO);
-        return newComment;
+
+        const newComment = await this.commentRepository.create(commentDTO);
+        return newComment.id;
     }
 
     async findAll(){

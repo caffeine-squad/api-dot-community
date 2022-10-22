@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from '../Database/prismaClient';
+import { prisma } from '../config/prismaClient';
 
 export default class Repository {
     async create(comment: Prisma.CommentCreateInput){
