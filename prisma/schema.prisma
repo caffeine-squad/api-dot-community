@@ -70,7 +70,7 @@ model User {
   birthDate      DateTime?
   cnpj           String?          @unique @db.VarChar(14)
   cellPhone      String           @db.VarChar(15)
-  password       String           @db.VarChar(20)
+  password       String           
   userTypeId     Int
   userType       UserType         @relation(fields: [userTypeId], references: [id])
   addressId      Int?             @unique

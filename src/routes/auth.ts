@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { AuthController } from "../controller/AuthController";
+import 'reflect-metadata';
+import { container } from "tsyringe";
+import AuthController from "../controller/AuthController";
 
 const authRoute = Router();
-const authController = new AuthController();
+const authController = container.resolve<AuthController>(AuthController)
 
-authRoute.use("/", authController.autentication);
+authRoute.use("/", (req, res) => authController.autentication(req, res));
 
 export { authRoute }

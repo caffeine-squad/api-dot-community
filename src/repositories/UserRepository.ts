@@ -1,5 +1,6 @@
-import { Address, Prisma, User } from '@prisma/client';
+import { Address, Prisma } from '@prisma/client';
 import { prisma } from '../Database/prismaClient';
+import { prismaClient } from '../config/prismaClient';
 
 export default class UserRepository {
 
@@ -12,6 +13,21 @@ export default class UserRepository {
         } catch (error: any) {
             const { message } = error
             throw new Error(message)
+        }
+    }
+
+    async GetByEmail(email : string){
+        try {
+            return await prismaClient.user.findFirst({ 
+                where: { 
+                    email
+                },
+                include: {
+                    userType: true
+                }
+            });
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     }
 }

@@ -1,53 +1,20 @@
 import { Request, Response } from "express";
-import { prismaClient } from "../config/prismaClient";
-import bcrypt from "bcryptjs";
-import { hash } from "bcryptjs";
-import jwt from "jsonwebtoken";
+import AuthService from "../services/AuthService";
+import { autoInjectable } from "tsyringe";
 
-export class AuthController {
+@autoInjectable()
+export default class AuthController {
+
+    constructor(private authService: AuthService){}
+
     async autentication(req: Request, res: Response){
+        try {
+            
+            const token = await this.authService.autentication(req);
+            return res.json(token);
 
-        const { email, password } = req.body;
-        console.log(email, password);
-        
-        const userExist = await prismaClient.user.findFirst({ 
-            where: { 
-                email
-            },
-            include: {
-                userType: true
-            },
-        });
-
-        if(!userExist) {
-            return res.status(401).json("Authentication failure");
+        } catch (error: any) {
+            throw new Error(error.message);
         }
-
-        console.table(await hash(password, 8));
-        const isValidPassword = await bcrypt.compare(password, userExist.password);
-
-        if(!isValidPassword) {
-            console.table("aqui");
-            return res.status(401).json("Authentication failure");
-        }
-
-        const token = jwt.sign(
-            {
-                id: userExist.email,
-                userType: userExist.userType
-            },
-            process.env.SECRET_KEY_JWT as string, 
-            { expiresIn: '1h' }
-        );
-
-        const user = {
-            "id": userExist.codUser,
-            "name": userExist.name,
-            "userType": userExist.userType.accessType
-        }
-        return res.json({
-            user,
-            token,
-        });
     }
 }
