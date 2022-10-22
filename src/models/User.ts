@@ -25,3 +25,21 @@ export type AddressDTO = {
     uf: string
 }
 
+export type UserResponseDTO = {
+    name: string,
+    email: string,
+    birthDate: Date | null,
+    cnpj: string | null,
+    cellPhone: string,
+    address: AddressDTO,
+    bloodType: string,
+	userComobidity: string[]
+}
+
+export type AddressResponseDTO = {
+    cep: string,
+    address: string,
+    district: string,
+    city: string,
+    uf: string
+}
