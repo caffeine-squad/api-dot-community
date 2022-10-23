@@ -36,12 +36,12 @@ For performing basic CRUD (Create, Read, Update, Delete) operations.
 General endpoints:
 
 <ul>
-  <li>{{ _.host }}/user</li>
-  <li>{{ _.host }}/address</li>
-  <li>{{ _.host }}/comorbidity</li>
-  <li>{{ _.host }}/comment</li>
-  <li>{{ _.host }}/topic</li>
-  <li>{{ _.host }}//authenticate</li>
+  <li>/user</li>
+  <li>/address</li>
+  <li>/comorbidity</li>
+  <li>/comment</li>
+  <li>/topic</li>
+  <li>/authenticate</li>
 </ul>
 
 
