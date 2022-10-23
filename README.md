@@ -45,7 +45,8 @@ General endpoints:
 </ul>
 
 
-JSON example return an user with GET ( {{ _.host }}/user ): 
+JSON example return an user with GET ( `GET /user/` ): 
+
 ```bash
    {
       "_id": "req_08edc1a07cd04bf49af837549fd94ee4",
