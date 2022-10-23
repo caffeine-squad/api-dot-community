@@ -45,7 +45,7 @@ General endpoints:
 </ul>
 
 
-JSON example return an user with GET ( `GET /user/` ): 
+## JSON example return an user with GET ( {{ _.host }}/user ): 
 
 ```bash
    {
@@ -61,7 +61,7 @@ JSON example return an user with GET ( `GET /user/` ):
       "parameters": [],
     }
 ```
-JSON example to create an user with POST ( {{ _.host }}/user ): 
+## JSON example to create an user with POST ( {{ _.host }}/user ): 
 ```bash
 {
       "_id": "req_d0b4664de66b4006a429ab31d5adfcba",
@@ -78,4 +78,12 @@ JSON example to create an user with POST ( {{ _.host }}/user ):
       }
 ```
 
+## Get a specific User
+### Request
+
+`GET /user/:id`
  
+## Get all Users
+### Request
+
+`GET /user/`
