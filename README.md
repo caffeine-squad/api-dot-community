@@ -32,7 +32,9 @@ npm rum dev
 ## API Endpoints
 
 For performing basic CRUD (Create, Read, Update, Delete) operations.
+
 General endpoints:
+
 <ul>
   <li>{{ _.host }}/user</li>
   <li>{{ _.host }}/address</li>
