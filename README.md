@@ -46,7 +46,7 @@ General endpoints:
 
 
 ## JSON example return an user with GET ( {{ _.host }}/user ): 
-
+### Response
 ```bash
    {
       "_id": "req_08edc1a07cd04bf49af837549fd94ee4",
@@ -62,6 +62,7 @@ General endpoints:
     }
 ```
 ## JSON example to create an user with POST ( {{ _.host }}/user ): 
+### Response
 ```bash
 {
       "_id": "req_d0b4664de66b4006a429ab31d5adfcba",
