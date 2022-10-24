@@ -47,6 +47,7 @@ Use the authetication route to get a token.
 
 ## User
 - Create User `POST` ( /user )
+
     JSON example  
 ```bash
 {
@@ -76,6 +77,7 @@ Use the authetication route to get a token.
 
 ## Comorbidity 
 - 🗝️ Create Comorbidity `POST` ( /comorbidity )
+
     JSON example  
 ```bash
 {
@@ -88,6 +90,7 @@ Use the authetication route to get a token.
 
 ## Topic 
 - 🗝️ Create Topic `POST` ( /topic )
+
     JSON example  
 ```bash
 {
@@ -101,6 +104,7 @@ Use the authetication route to get a token.
 - 🗝️ Delete `DELETE` ( /topic/:id )
 ## Comment 
 - 🗝️ Create Comment `POST` ( /comment )
+
     JSON example  
 ```bash
 {
@@ -115,6 +119,7 @@ Use the authetication route to get a token.
 
 ## Authetication
 - Login `POST` ( /authenticate )
+
     JSON example  
 ```bash
 {
