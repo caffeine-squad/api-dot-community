@@ -1,9 +1,8 @@
 # API dot Community
 
-CRUD API for organ donation system.
+A community where people can get informed and share content about organ donation
 
 ## Installation
-
 Use the package [npm](https://https://www.npmjs.com/) to install the backend API requirements.
 
 ```bash
@@ -11,15 +10,13 @@ npm install
 ```
 Use the package [npx](https://https://www.npmjs.com/) to install the database ORM for nodejs with postgresql or other MSDB you preference: [prisma](https://www.prisma.io/)
 
+### Environment Configuration
+For this next step it is necessary to have the .env file configured, locate the .env.example file and rename it to .env, then modify the environment variables according to your settings.
 ```bash
 npx prisma migrate dev
 ```
 ## Usage
 
-Comand to run migrations:
-```bash
-npx prisma migrate dev --name initial
-```
 Comand to run seed:
 ```bash
  npx prisma db seed
@@ -35,56 +32,92 @@ For performing basic CRUD (Create, Read, Update, Delete) operations.
 
 General endpoints:
 
-<ul>
-  <li>/user</li>
-  <li>/address</li>
-  <li>/comorbidity</li>
-  <li>/comment</li>
-  <li>/topic</li>
-  <li>/authenticate</li>
-</ul>
+  - /user
+  - /address
+  - /comorbidity
+  - /comment
+  - /topic
+  - /authenticate
 
+All information in requests added from the "🗝️" icon are routes that require user authentication (token).
 
-## JSON example return an user with GET ( {{ _.host }}/user ): 
-### Response
-```bash
-   {
-      "_id": "req_08edc1a07cd04bf49af837549fd94ee4",
-      "parentId": "fld_f46ea64fe36541c6bb8cf3f5c96016a4",
-      "modified": 1666489007713,
-      "created": 1666477300667,
-      "url": "{{ _.host }}/user",
-      "name": "findAll",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [],
-    }
-```
-## JSON example to create an user with POST ( {{ _.host }}/user ): 
-### Response
+All information in requests added from the "👤" icon are routes that require admin authentication (token).
+
+Use the authetication route to get a token.
+
+## User
+- Create User `POST` ( /user )
+    JSON example  
 ```bash
 {
-      "_id": "req_d0b4664de66b4006a429ab31d5adfcba",
-      "parentId": "fld_f46ea64fe36541c6bb8cf3f5c96016a4",
-      "modified": 1666489043977,
-      "created": 1666477257601,
-      "url": "{{ _.host }}/user",
-      "name": "Create",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n    \"name\":\"admin\",\n    \"email\": \"admin@admin\",\n    \"birthDate\": \"2020-10-12\",\n    \"cellPhone\": \"88888888\",\n    \"password\": \"admin\",\n    \"userTypeId\": 1,\n    \"organUser\": [{\"organId\": 1}],\n    \"address\": {\n        \"address\":\"teste2\",\n        \"cep\": \"6200000\",\n        \"number\": 1,\n        \"complement\": \"asdasd\",\n        \"district\": \"teste\",\n        \"city\": \"teste\",\n        \"uf\": \"teste\"\n    }\n}"
-      }
+    "name":"admin",
+    "email": "admin@admin",
+    "birthDate": "2020-10-12",
+    "cellPhone": "88888888",
+    "password": "admin",
+    "userTypeId": 1,
+    "organUser": [{"organId": 1}],
+    "address": {
+        "address":"teste2",
+        "cep": "6200000",
+        "number": 1,
+        "complement": "asdasd",
+        "district": "teste",
+        "city": "teste",
+        "uf": "teste"
+    }
+}
 ```
+- 👤 Find All `GET` ( /user )
+- 👤 Find By Id `GET` ( /user/:id )
 
-## Get a specific User
-### Request
+## Address
+- Find By CEP `GET` ( https://viacep.com.br/ws/(:cep)/json )
 
-`GET /user/:id`
- 
-## Get all Users
-### Request
+## Comorbidity 
+- 🗝️ Create Comorbidity `POST` ( /comorbidity )
+    JSON example  
+```bash
+{
+	"description": "cancer"
+}
+```
+- 🗝️ Find All `GET` ( /comorbidity )
+- 👤 Update `PUT` ( /comorbidity/:id )
+- 👤 Delete `DELETE` ( /comorbidity/:id )
 
-`GET /user/`
+## Topic 
+- 🗝️ Create Topic `POST` ( /topic )
+    JSON example  
+```bash
+{
+	"title": "Teste",
+	"description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+	"userId": 1
+}
+```
+- 🗝️ Find All `GET` ( /topic )
+- 🗝️ Update `PUT` ( /topic/:id )
+- 🗝️ Delete `DELETE` ( /topic/:id )
+## Comment 
+- 🗝️ Create Comment `POST` ( /comment )
+    JSON example  
+```bash
+{
+	"userId":1,
+	"description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+	"topicId":2
+}
+```
+- 👤 Find All `GET` ( /comment )
+- 🗝️ Update `PUT` ( /comment/:id )
+- 🗝️ Delete `DELETE` ( /comment/:id )
+
+## Authetication
+- Login `POST` ( /authenticate )
+    JSON example  
+```bash
+{
+	"email":"admin@admin",
+	"password":"admin"
+}
