@@ -2,7 +2,7 @@ import {Router} from "express";
 import 'reflect-metadata'
 import { container } from "tsyringe";
 import TopicController from "../controller/TopicController";
-import EnsureAuthenticated from "../middlewares/EnsureAuthenticated";
+import EnsureAuthenticated from "../middlewares/ensureAuthenticated";
 
 const topicRoutes = Router();
 
@@ -12,5 +12,6 @@ topicRoutes.post('/', EnsureAuthenticated, (req, res) => topicController.create(
 topicRoutes.get('/', EnsureAuthenticated, (req, res) => topicController.findAll(req,res));
 topicRoutes.put('/:id', EnsureAuthenticated, (req, res) => topicController.update(req,res));
 topicRoutes.delete('/:id', EnsureAuthenticated, (req, res) => topicController.delete(req,res));
+topicRoutes.get('/:id', EnsureAuthenticated, (req, res) => topicController.getById(req,res));
 
 export {topicRoutes};

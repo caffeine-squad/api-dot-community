@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, Topic } from '@prisma/client';
 import { prisma } from '../config/prismaClient';
 
 export default class Repository {
@@ -13,8 +13,14 @@ export default class Repository {
         }
     }
 
-    async findAll() {
+    async findAll(): Promise<Topic[]>  {
 		const result = await prisma.topic.findMany({
+			include: {
+				user: true,
+				_count: {
+					select: { Comment: true },
+				},
+			},
 			orderBy: {
 				id: 'asc'
 			}
@@ -48,4 +54,19 @@ export default class Repository {
 		});
 		return result;
 	}
+
+	async getById(id: number): Promise<Topic | undefined> {
+        try {
+            return (await prisma.topic.findFirstOrThrow(
+                {
+                    where:
+                        { id: id },
+                    include:
+                        { user: true }
+                }))
+        } catch (error: any) {
+            const { message } = error
+            throw new Error(message)
+        }
+    } 
 }

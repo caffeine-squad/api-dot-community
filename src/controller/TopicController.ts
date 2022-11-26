@@ -48,4 +48,15 @@ export default class TopicController{
         const deleteTopic = await this.topicService.delete(Number(id));
         return response.status(204).json(deleteTopic);
     }
+
+    async getById(request: Request, response: Response){
+        try {
+            const {id} = request.params;
+            const user = await this.topicService.getById(Number(id));
+            response.status(200).json(user)
+        } catch (error: any) {
+            const {message} = error
+            response.status(400).json(message)
+        }
+    } 
 }
