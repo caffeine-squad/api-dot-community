@@ -1,5 +1,4 @@
-import { Address, Prisma, GetTopic } from '@prisma/client';
-import { it } from 'node:test';
+import { Prisma } from '@prisma/client';
 import { autoInjectable } from 'tsyringe';
 import { TopicDTO, GetTopicDTO, GetAllTopicDTO } from '../models/Topic';
 import  TopicRepository  from '../repositories/TopicRepository';
