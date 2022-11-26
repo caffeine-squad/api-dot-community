@@ -18,8 +18,6 @@ export default class AddressService {
 
     async get(cep: string): Promise<AddressResponseDTO> {
 
-        
-
         let response: IAddressRequest = JSON.parse(await baseUrl.get(`${cep}/json`));
 
         const address: AddressResponseDTO = {

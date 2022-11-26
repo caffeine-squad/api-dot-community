@@ -5,39 +5,50 @@ import UserService from '../services/UserService';
 @autoInjectable()
 export default class UserController {
     get(arg0: string, get: any) {
-      throw new Error("Method not implemented.");
+        throw new Error("Method not implemented.");
     }
 
-    constructor(private userService: UserService){}
-    
-    async create(request: Request, response: Response){
+    constructor(private userService: UserService) { }
+
+    async create(request: Request, response: Response) {
         try {
             const newUser = await this.userService.create(request.body);
-            response.status(201).json({id: newUser})
+            response.status(201).json({ id: newUser })
         } catch (error: any) {
-            const {message} = error
+            const { message } = error
             response.status(400).json(message)
         }
     }
 
-    async getAll(request: Request, response: Response){
+    async getAll(request: Request, response: Response) {
         try {
             const userList = await this.userService.getAll();
             response.status(200).json(userList)
         } catch (error: any) {
-            const {message} = error
+            const { message } = error
             response.status(400).json(message)
         }
     }
 
-    async getById(request: Request, response: Response){
+    async getById(request: Request, response: Response) {
         try {
-            const {id} = request.params;
+            const { id } = request.params;
             const user = await this.userService.getById(Number(id));
             response.status(200).json(user)
         } catch (error: any) {
-            const {message} = error
+            const { message } = error
             response.status(400).json(message)
         }
-    }  
+    }
+
+    async put(request: Request, response: Response) {
+        try {
+            const { id } = request.params;
+            const data = request.body;
+            const user = await this.userService.put(Number(id), data);
+        } catch (error: any) {
+            const { message } = error
+            response.status(400).json(message)
+        }
+    }
 }

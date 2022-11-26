@@ -16,4 +16,14 @@ export function IsOrganization (value: string){
     return value == EUserType.Organization;
 }
 
-export default { IsAdmin, IsDonor, IsReceiver, IsOrganization};
+export function Exclude<User, Key extends keyof User>(
+    user: User,
+    keys: Key[]
+  ): User {
+    for (let key of keys) {
+      delete user[key]
+    }
+    return user
+  }
+
+export default { IsAdmin, IsDonor, IsReceiver, IsOrganization, Exclude};

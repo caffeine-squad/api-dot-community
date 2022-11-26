@@ -1,38 +1,14 @@
+import { Response } from 'express';
 import { hash } from 'bcryptjs';
 import { Prisma, User } from '@prisma/client';
 import UserRepository from '../repositories/UserRepository';
 import { autoInjectable } from 'tsyringe';
-import { UserDTO } from '../models/User';
-
-// interface IUserResponse {
-//     codUser: number,
-//     name: string,
-//     email: string,
-//     birthDate: Date,
-//     cnpj: string,
-//     cellPhone: number,
-//     password: string,
-//     userTypeId: number,
-//     addressId: number,
-//     bloodTypeId: number,
-//     address: {
-//         id: number,
-//         cep: string,
-//         address: string,
-//         number: number,
-//         complement: string,
-//         district: string,
-//         city: string,
-//         uf: string
-//     },
-//     bloodType: string,
-//     UserComobidity: {
-//         description: string
-//     }
-// }
+import { UserDTO, UserUpdateDTO } from '../models/User';
+import { Exclude } from '../utils/IsUserTypeEnum';
 
 @autoInjectable()
 export default class UserService {
+
     constructor(private userRepository: UserRepository) { }
 
     async create(user: UserDTO): Promise<number> {
@@ -67,15 +43,43 @@ export default class UserService {
     }
 
     async getAll(): Promise<Array<User>> {
-        const userList = await this.userRepository.getAll();
-        return userList;
+
+        const responseUser = await this.userRepository.getAll();
+        return responseUser;
     }
 
-    async getById(codUser: number): Promise<User | undefined> {
+    async getById(codUser: number): Promise<User> {
 
-        let response = (await this.userRepository.getById(codUser));
+        let user = (await this.userRepository.getById(codUser));
+        const userWithoutPassword = Exclude(user, ['password']);
 
-        return response;
+        return userWithoutPassword;
     }
 
+    async put(codUser: number, user: UserUpdateDTO): Promise<void> {
+
+        let userDTO: Prisma.UserUpdateInput
+
+        userDTO = {
+            name: user.name,
+            email: user.email,
+            birthDate: new Date(user.birthDate),
+            cnpj: user.cnpj,
+            cellPhone: user.cellPhone,
+            OrganUser: {updateMany: {data: user.organUser} || user.organUser},
+            // UserComobidity: user.userComobidity,
+            address: {
+                update: {
+                    cep: user.address.cep,
+                    address: user.address.address,
+                    number: user.address.number,
+                    complement: user.address.complement,
+                    district: user.address.district,
+                    city: user.address.city,
+                    uf: user.address.uf
+                }
+            }
+        }
+        await this.userRepository.put(codUser, userDTO);
+    }
 }

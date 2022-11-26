@@ -1,4 +1,6 @@
 import { Prisma } from "@prisma/client"
+type Enumerable<T> = Prisma.Enumerable<T>;
+type OrganUserScalarWhereInput = Prisma.OrganUserScalarWhereInput;
 
 export type UserDTO = {
     name: string,
@@ -11,6 +13,20 @@ export type UserDTO = {
     bloodType?: number,
     organUser?: Prisma.OrganUserCreateManyUserInput[],
     userComobidity?: Prisma.UserComobidityCreateManyUserInput[],
+    address: AddressDTO
+}
+
+export type UserUpdateDTO = {
+    name: string,
+    email: string,
+    birthDate: Date,
+    cnpj: string,
+    cellPhone: string,
+    password: string,
+    userTypeId: number,
+    bloodType?: number,
+    organUser?: Enumerable<OrganUserScalarWhereInput> | undefined,
+    userComobidity?: Prisma.UserComobidityUpdateManyWithoutUserNestedInput | undefined,
     address: AddressDTO
 }
 

@@ -11,6 +11,7 @@ const userController = container.resolve<UserController>(UserController)
 
 userRoutes.post('/', (req, res) => userController.create(req,res));
 userRoutes.get('/', EnsureAuthenticated, EnsureAdmin, (req, res) => userController.getAll(req,res));
-userRoutes.get('/:id', EnsureAuthenticated, EnsureAdmin, (req, res) => userController.getById(req,res));
+userRoutes.get('/:id', EnsureAuthenticated, (req, res) => userController.getById(req,res));
+userRoutes.put('/:id', EnsureAuthenticated, (req, res) => userController.put(req, res));
 
 export {userRoutes};

@@ -1,4 +1,4 @@
-import { Prisma, User } from '@prisma/client';
+import { Comorbidity, OrganUser, Prisma, User, UserComobidity, Address, BloodType } from '@prisma/client';
 import { prisma } from '../config/prismaClient';
 
 export default class UserRepository {
@@ -17,21 +17,32 @@ export default class UserRepository {
 
     async getAll(): Promise<Array<User>> {
         try {
-            return (await prisma.user.findMany({ include: { address: true, bloodType: true, UserComobidity: true } }))
+            return (await prisma.user.findMany(
+                { include: 
+                    { address: true, 
+                      bloodType: {select: {description: true}}, 
+                      UserComobidity: {select: { Comorbidity: {select: {description: true}}}},
+                      OrganUser: {select: {organ: {select: {description: true}}}} 
+                    } }))
         } catch (error: any) {
             const { message } = error
             throw new Error(message)
         }
     }
 
-    async getById(id: number): Promise<User | undefined> {
+    async getById(id: number): Promise<User> {
         try {
             return (await prisma.user.findFirstOrThrow(
                 {
                     where:
                         { codUser: id },
                     include:
-                        { address: true, bloodType: true, UserComobidity: true }
+                        { address: true, 
+                          bloodType: {select: {description: true}}, 
+                          UserComobidity: {select: { Comorbidity: {select: {description: true}}}},
+                          OrganUser: {select: {organ: {select: {description: true}}}}
+                        },
+                    
                 }))
         } catch (error: any) {
             const { message } = error
@@ -39,10 +50,22 @@ export default class UserRepository {
         }
     }
 
-    async GetByEmail(email : string){
+    async put(codUser: number, user: Prisma.UserUpdateInput): Promise<void>{
         try {
-            return await prisma.user.findFirst({ 
-                where: { 
+            await prisma.user.update({
+                where: { codUser: codUser},
+                data: user
+            })
+        } catch (error: any) {
+            const { message } = error
+            throw new Error(message)
+        }
+    }
+
+    async GetByEmail(email: string) {
+        try {
+            return await prisma.user.findFirst({
+                where: {
                     email
                 },
                 include: {
@@ -53,5 +76,6 @@ export default class UserRepository {
             throw new Error(error.message);
         }
     }
+    
 
 }
