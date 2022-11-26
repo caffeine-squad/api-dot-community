@@ -11,7 +11,8 @@ interface ITokenResponse {
 
 interface IUsertoken {
     id: number,
-    name: string
+    name: string,
+    userType: string,
 }
 
 @autoInjectable()
@@ -46,6 +47,7 @@ export default class AuthService {
         const usertoken: IUsertoken = {
             id : user.codUser,
             name : user.name,
+            userType: user.userType.accessType
         };
 
         const tokenResponse : ITokenResponse = {
