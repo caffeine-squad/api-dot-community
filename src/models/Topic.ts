@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 export type TopicDTO = {
-  id: number;
+  userId: number;
+  title: string;
   description: string;
 }

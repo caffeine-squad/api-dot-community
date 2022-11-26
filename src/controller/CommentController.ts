@@ -26,14 +26,14 @@ export default class CommentController{
 
     async update(request: Request, response:Response){
         const { id } = request.params;
-        const { description } = request.body;
+        const { description, title } = request.body;
         try {
             const existComment = await this.commentService.findUnique(Number(id));
             if (!existComment) {
                 return response.status(404).json('This comment is not registered');
             }
             const updateComment = await this.commentService.update(Number(id), description);
-            return response.status(200).json(updateComment);
+            return response.status(204).json(updateComment);
         } catch (error) {
             return response.status(400).json('Invalid Data');
         }
