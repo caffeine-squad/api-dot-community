@@ -1,6 +1,6 @@
-import { Address, Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { autoInjectable } from 'tsyringe';
-import { TopicDTO } from '../models/Topic';
+import { TopicDTO, GetTopicDTO, GetAllTopicDTO } from '../models/Topic';
 import  TopicRepository  from '../repositories/TopicRepository';
 
 @autoInjectable()
@@ -21,7 +21,23 @@ export default class TopicService {
 
     async findAll(){
         const topic = await this.topicRepository.findAll();
-        return topic;
+
+        const topicResponse: GetAllTopicDTO[] = [];
+
+        topic.forEach(item => {
+            const topicResult = {
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                creationDate: item.creationDate,
+                userId: item.user.codUser,
+                userName: item.user.name,
+                numberOfComments: item._count,
+            }
+            topicResponse.push(topicResult);
+        })
+        
+        return topicResponse;
     }
 
     async update(id: number, description: string, title: string) {
@@ -38,4 +54,23 @@ export default class TopicService {
 		const deleteTopic = this.topicRepository.delete(id);
 		return deleteTopic;
 	}
+
+    async getById(id: number): Promise<GetTopicDTO | undefined> {
+
+        const response = (await this.topicRepository.getById(id));
+        console.log(response);
+        if(response != null) {
+            const topicResponse = {
+                id: response.id,
+                title: response.title,
+                description: response.description,
+                creationDate: response.creationDate,
+                userId: response.user.codUser,
+                userName: response.user.name
+            }
+            return topicResponse;
+        }
+
+        return response;
+    }
 }
